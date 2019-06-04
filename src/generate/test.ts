@@ -3,7 +3,7 @@ import generate from '.'
 const h = (...whatever) => whatever
 
 describe('generate', () => {
-  it('generates simple components', t => {
+  it('generates simple components', () => {
     const { Component } = generate(h, {
       Component: { tag: undefined, className: 'component-class', props: {} }
     })
@@ -13,129 +13,125 @@ describe('generate', () => {
     expect(children).toBe(42)
   })
 
-  // it('passes children arrays', t => {
-  //   const { Component } = generate(h, { Component: 'component-class' })
-  //   const [, , c1, c2, c3] = Component({ children: [1, 2, 3] })
-  //   t.true(c1 === 1)
-  //   t.true(c2 === 2)
-  //   t.true(c3 === 3)
-  // })
+  it('passes children arrays', () => {
+    const { Component } = generate(h, {
+      Component: { tag: undefined, className: 'component-class', props: {} }
+    })
+    const [, , c1, c2, c3] = Component({ children: [1, 2, 3] })
+    expect(c1).toBe(1)
+    expect(c2).toBe(2)
+    expect(c3).toBe(3)
+  })
 
-  // it('generates components with bool props', t => {
-  //   const { Component } = generate(h, {
-  //     Component: 'component-class',
-  //     'Component-disabled': 'component-disabled'
-  //   })
-  //   const defaultArgs = Component({ children: 42 })
-  //   t.deepEqual(defaultArgs, ['div', { className: 'component-class' }, 42])
-  //   const disabledArgs = Component({ children: 42, disabled: true })
-  //   t.deepEqual(disabledArgs, [
-  //     'div',
-  //     { className: 'component-class component-disabled' },
-  //     42
-  //   ])
-  // })
+  it('generates components with bool props', () => {
+    const { Component } = generate(h, {
+      Component: {
+        tag: undefined,
+        className: 'component-class',
+        props: {
+          disabled: {
+            type: 'boolean',
+            propName: 'disabled',
+            className: 'component-disabled'
+          }
+        }
+      }
+    })
+    const defaultArgs = Component({ children: 42 })
+    expect(defaultArgs).toEqual(['div', { className: 'component-class' }, 42])
+    const disabledArgs = Component({ children: 42, disabled: true })
+    expect(disabledArgs).toEqual([
+      'div',
+      { className: 'component-class component-disabled' },
+      42
+    ])
+  })
 
-  // test('it generates components with enum props', t => {
-  //   const { Component } = generate(h, {
-  //     Component: 'component-class',
-  //     'Component-color-red': 'component-red',
-  //     'Component-color-green': 'component-green'
-  //   })
-  //   const defaultArgs = Component({ children: 42 })
-  //   t.deepEqual(defaultArgs, ['div', { className: 'component-class' }, 42])
-  //   const redArgs = Component({ children: 42, color: 'red' })
-  //   t.deepEqual(redArgs, [
-  //     'div',
-  //     { className: 'component-class component-red' },
-  //     42
-  //   ])
-  // })
+  it('generates components with enum props', () => {
+    const { Component } = generate(h, {
+      Component: {
+        tag: undefined,
+        className: 'component-class',
+        props: {
+          color: {
+            type: 'enum',
+            propName: 'color',
+            values: ['red', 'green'],
+            classNames: {
+              red: 'component-red',
+              green: 'component-green'
+            }
+          }
+        }
+      }
+    })
+    const defaultArgs = Component({ children: 42 })
+    expect(defaultArgs).toEqual(['div', { className: 'component-class' }, 42])
+    const redArgs = Component({ children: 42, color: 'red' })
+    expect(redArgs).toEqual([
+      'div',
+      { className: 'component-class component-red' },
+      42
+    ])
+  })
 
-  // test('it allows to override the tag using props', t => {
-  //   const { Component } = generate(h, {
-  //     Component: 'component-class'
-  //   })
-  //   const args = Component({ tag: 'span', children: 42 })
-  //   t.deepEqual(args, ['span', { className: 'component-class' }, 42])
-  // })
+  it('allows to override the tag using props', () => {
+    const { Component } = generate(h, {
+      Component: { tag: undefined, className: 'component-class', props: {} }
+    })
+    const args = Component({ tag: 'span', children: 42 })
+    expect(args).toEqual(['span', { className: 'component-class' }, 42])
+  })
 
-  // test('it allows to override the default props', t => {
-  //   const { Component } = generate(
-  //     h,
-  //     {
-  //       Component: 'component-class',
-  //       'Component-color-red': 'component-red',
-  //       'Component-color-green': 'component-green',
-  //       'Component-disabled': 'component-disabled'
-  //     },
-  //     {
-  //       Component: { tag: 'main', disabled: true, color: 'green' }
-  //     }
-  //   )
-  //   const args = Component({ children: 42 })
-  //   t.deepEqual(args, [
-  //     'main',
-  //     { className: 'component-class component-disabled component-green' },
-  //     42
-  //   ])
-  // })
+  it('allows to mix classes with custom `className` props', () => {
+    const { Component } = generate(h, {
+      Component: { tag: undefined, className: 'component-class', props: {} }
+    })
+    const [, props] = Component({ className: 'original-class' })
+    expect(props).toEqual({ className: 'component-class original-class' })
+  })
 
-  // test('it allows to override the tag using default props', t => {
-  //   const { Component } = generate(
-  //     h,
-  //     {
-  //       Component: 'component-class'
-  //     },
-  //     {
-  //       Component: { tag: 'span' }
-  //     }
-  //   )
-  //   const args = Component({ children: 42 })
-  //   t.deepEqual(args, ['span', { className: 'component-class' }, 42])
-  // })
+  it('passes extra props to the tag element', () => {
+    const { Component } = generate(h, {
+      Component: {
+        tag: undefined,
+        className: 'component-class',
+        props: {
+          test: {
+            type: 'boolean',
+            propName: 'test',
+            className: 'component-test'
+          }
+        }
+      }
+    })
+    const args = Component({ children: 42, a: 1, b: 2 })
+    expect(args).toEqual([
+      'div',
+      { className: 'component-class', a: 1, b: 2 },
+      42
+    ])
+  })
 
-  // test('it allows to mix classes with custom `className` props', t => {
-  //   const { Component } = generate(h, { Component: 'component-class' })
-  //   const [, props] = Component({ className: 'original-class' })
-  //   t.deepEqual(props, { className: 'component-class original-class' })
-  // })
+  it('passes refs callback to the tag element', () => {
+    const refsCallback = () => {}
+    const { Component } = generate(h, {
+      Component: { tag: undefined, className: 'component-class', props: {} }
+    })
+    const args = Component({ children: 42, innerRef: refsCallback })
+    expect(args).toEqual([
+      'div',
+      { className: 'component-class', ref: refsCallback },
+      42
+    ])
+  })
 
-  // test('it passes extra props to the tag element', t => {
-  //   const { Component } = generate(h, {
-  //     Component: 'component-class',
-  //     'Component-test': 'component-test'
-  //   })
-  //   const args = Component({ children: 42, a: 1, b: 2 })
-  //   t.deepEqual(args, ['div', { className: 'component-class', a: 1, b: 2 }, 42])
-  // })
-
-  // test('it passes refs callback to the tag element', t => {
-  //   const refsCallback = () => {}
-  //   const { Component } = generate(h, {
-  //     Component: 'component-class'
-  //   })
-  //   const args = Component({ children: 42, innerRef: refsCallback })
-  //   t.deepEqual(args, [
-  //     'div',
-  //     { className: 'component-class', ref: refsCallback },
-  //     42
-  //   ])
-  // })
-
-  // test('it works with a number of zero as children', t => {
-  //   const { Component } = generate(h, { Component: 'component-class' })
-  //   const [, props, children] = Component({ children: 0 })
-  //   t.deepEqual(props, { className: 'component-class' }, 0)
-  //   t.true(children === 0)
-  // })
-
-  // test('it works with class names not matching the convension', t => {
-  //   const classes = generate(h, {
-  //     Component: 'component-class',
-  //     'Component-enum-': '123',
-  //     'Component--option': 'qwe'
-  //   })
-  //   t.deepEqual(Object.keys(classes), ['Component'])
-  // })
+  it('works with a number of zero as children', () => {
+    const { Component } = generate(h, {
+      Component: { tag: undefined, className: 'component-class', props: {} }
+    })
+    const [, props, children] = Component({ children: 0 })
+    expect(props).toEqual({ className: 'component-class' })
+    expect(children).toBe(0)
+  })
 })

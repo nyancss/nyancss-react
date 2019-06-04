@@ -1,4 +1,4 @@
-import { NyanCSSComponent, NyanCSSMap } from 'nyancss'
+import { NyanCSSComponent, NyanCSSMap, NyanCSSProp } from 'nyancss'
 import {
   NyanCSSReactComponent,
   NyanCSSReactCreateElement,
@@ -25,121 +25,63 @@ function createComponent<Element>(
   component: NyanCSSComponent
 ): NyanCSSReactComponent<Element> {
   const Component = (props: NyanCSSReactProps) => {
-    var tag = props.tag || 'div'
-    var className = getClassName(
-      component.className,
-      component.modifiers,
-      props,
-      props.className
-    )
-    var tagProps = without(
+    const tag = props.tag || 'div'
+    const className = getClassName(component, props)
+    const tagProps = without(
       props,
       ['tag', 'children', 'className', 'innerRef'].concat(
-        Object.keys(component.modifiers)
+        Object.keys(component.props)
       )
     )
     var compoundProps = Object.assign({ className: className }, tagProps)
     if (props.innerRef) {
       compoundProps.ref = props.innerRef
     }
-    var helperArgs = [tag, compoundProps].concat(
-      props && props.children !== undefined ? props.children : []
-    )
-    return h.apply(null, helperArgs)
+    return h.apply(null, [tag, compoundProps].concat(props.children))
   }
   Component.displayName = componentName
   return Component
 }
 
-function getComponents(style) {
-  var classes = Object.keys(style)
-  return classes.reduce(function(acc, className) {
-    var isModifier = /-/.test(className)
-    if (isModifier) {
-      var classNameCaptures = className.match(/([^-]+)-(.+)/)
-      var componentClass = classNameCaptures[1]
-      var modifierPart = classNameCaptures[2]
-      var isEnum = /-/.test(modifierPart)
-
-      ensureComponentMap(componentClass)
-      var modifiers = acc[componentClass].modifiers
-
-      if (isEnum) {
-        var modifierCaptures = modifierPart.match(/^(.+)-(.+)$/)
-
-        if (!modifierCaptures) {
-          return acc
-        }
-
-        var propName = modifierCaptures[1]
-        var element = modifierCaptures[2]
-        var modifier = (modifiers[propName] = modifiers[propName] || {
-          type: 'enum',
-          elements: {}
-        })
-
-        modifier.elements[element] = style[className]
-      } else {
-        // is bool
-        var propName = modifierPart
-        modifiers[propName] = {
-          type: 'bool',
-          class: style[className]
-        }
-      }
-    } else {
-      ensureComponentMap(className)
-    }
-
-    function ensureComponentMap(className) {
-      acc[className] = acc[className] || {
-        class: style[className],
-        modifiers: {}
-      }
-    }
-
-    return acc
-  }, {})
+function getClassName(component: NyanCSSComponent, props: NyanCSSReactProps) {
+  const componentPropsClassNames = Object.keys(component.props).reduce(
+    (acc, componentPropName) => {
+      const componentProp = component.props[componentPropName]
+      const propValue = props[componentPropName]
+      return acc.concat(findModifierClassName(componentProp, propValue) || [])
+    },
+    [] as string[]
+  )
+  return classesToString(
+    [props.className, component.className].concat(componentPropsClassNames)
+  )
 }
 
-function getClassName(className: string, modifiers, props, originalClassName) {
-  var modifierNames = Object.keys(modifiers)
-  var modifierClasses = modifierNames.reduce(function(acc, modifierName) {
-    var modifier = modifiers[modifierName]
-    var propValue = props[modifierName]
-    return acc.concat(findModifierClassName(modifier, propValue) || [])
-  }, [])
-  return classesToString([originalClassName, className].concat(modifierClasses))
-}
-
-function findModifierClassName(modifier, propValue) {
-  if (modifier) {
-    switch (modifier.type) {
-      case 'bool':
-        if (propValue) {
-          return modifier.class
-        }
-        break
-      case 'enum':
-        return modifier.elements[propValue]
-    }
+function findModifierClassName(componentProp: NyanCSSProp, propValue: any) {
+  switch (componentProp.type) {
+    case 'boolean':
+      if (propValue) return componentProp.className
+      break
+    case 'enum':
+      return componentProp.classNames[propValue]
   }
 }
 
-function classesToString(classes) {
+function classesToString(classes: Array<string | undefined>) {
   return classes
-    .filter(function(c) {
-      return c
-    })
+    .filter(c => !!c)
     .sort()
     .join(' ')
 }
 
-function without(obj, excludeKeys) {
-  return Object.keys(obj).reduce(function(acc, currentKey) {
-    if (excludeKeys.indexOf(currentKey) === -1) {
-      acc[currentKey] = obj[currentKey]
-    }
-    return acc
-  }, {})
+function without(obj: { [key: string]: any }, excludeKeys: string[]) {
+  return Object.keys(obj).reduce(
+    function(acc, currentKey) {
+      if (excludeKeys.indexOf(currentKey) === -1) {
+        acc[currentKey] = obj[currentKey]
+      }
+      return acc
+    },
+    {} as { [key: string]: any }
+  )
 }
