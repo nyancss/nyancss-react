@@ -33,11 +33,11 @@ function createComponent<Element>(
         Object.keys(component.props)
       )
     )
-    var compoundProps = Object.assign({ className: className }, tagProps)
+    const compoundProps = Object.assign({ className: className }, tagProps)
     if (props.innerRef) {
       compoundProps.ref = props.innerRef
     }
-    return h.apply(null, [tag, compoundProps].concat(props.children))
+    return h(tag, compoundProps, ...props.children)
   }
   Component.displayName = componentName
   return Component
