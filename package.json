@@ -1,13 +1,13 @@
 {
-  "name": "nyancss-react",
+  "name": "@nyancss/react",
   "version": "1.0.0",
   "description": "Write plain CSS, import as React/Preact components",
   "main": "lib/index.js",
-  "repository": "https://github.com/nyancss/react",
+  "repository": "https://github.com/nyancss/nyancss-react",
   "author": "Sasha Koss <koss@nocorp.me>",
   "license": "MIT",
   "dependencies": {
-    "nyancss": "../nyancss/lib/"
+    "@nyancss/types": "../nyancss-types/lib"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.4.5",

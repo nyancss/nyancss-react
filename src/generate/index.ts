@@ -1,4 +1,4 @@
-import { NyanCSSComponent, NyanCSSMap, NyanCSSProp } from 'nyancss'
+import { NyanCSSComponent, NyanCSSMap, NyanCSSProp } from '@nyancss/types'
 import {
   NyanCSSReactComponent,
   NyanCSSReactCreateElement,
