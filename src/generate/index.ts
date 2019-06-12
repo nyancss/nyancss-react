@@ -33,11 +33,14 @@ function createComponent<Element>(
         Object.keys(component.props)
       )
     )
-    const compoundProps = Object.assign({ className: className }, tagProps)
+    const compoundProps: NyanCSSReactProps = Object.assign(
+      { className: className },
+      tagProps
+    )
     if (props.innerRef) {
       compoundProps.ref = props.innerRef
     }
-    return h(tag, compoundProps, ...props.children)
+    return h.apply(null, [tag, compoundProps].concat(props.children))
   }
   Component.displayName = componentName
   return Component
