@@ -15,7 +15,8 @@ build:
 	@rm -rf lib
 	@tsc
 	@prettier "**/*.[jt]s" --write --loglevel silent
-	@node -e "require('fs').writeFileSync('./lib/package.json', JSON.stringify(Object.assign(require('./package.json'), { main: 'index.js' }), null, 2))"
+	@cp package.json lib
+	@cp README.md lib
 
 publish: build
 	cd lib && npm publish --access public
