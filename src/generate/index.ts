@@ -7,12 +7,16 @@ import {
 } from '../types'
 
 export default function generate<Element>(
-  h: NyanCSSReactCreateElement<Element>,
+  createElement: NyanCSSReactCreateElement<Element>,
   map: NyanCSSMap
 ) {
   return Object.keys(map).reduce(
     (acc, componentName) => {
-      acc[componentName] = createComponent(h, componentName, map[componentName])
+      acc[componentName] = createComponent(
+        createElement,
+        componentName,
+        map[componentName]
+      )
       return acc
     },
     {} as NyanCSSReactExports<Element>
@@ -20,7 +24,7 @@ export default function generate<Element>(
 }
 
 function createComponent<Element>(
-  h: NyanCSSReactCreateElement<Element>,
+  createElement: NyanCSSReactCreateElement<Element>,
   componentName: string,
   component: NyanCSSComponent
 ): NyanCSSReactComponent<Element> {
@@ -40,7 +44,13 @@ function createComponent<Element>(
     if (props.innerRef) {
       compoundProps.ref = props.innerRef
     }
-    return h.apply(null, [tag, compoundProps].concat(props.children))
+    // TODO: Find a way to get rid of `as`
+    const args = [tag, compoundProps].concat(props.children) as [
+      string,
+      NyanCSSReactProps,
+      ...any[]
+    ]
+    return createElement.apply(null, args)
   }
   Component.displayName = componentName
   return Component

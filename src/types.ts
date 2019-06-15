@@ -13,7 +13,7 @@ export type NyanCSSReactExports<Element> = {
 }
 
 export type NyanCSSReactCreateElement<Element> = (
-  component: string | Function,
-  props: NyanCSSReactProps | null,
-  ...children: any
+  tag: string,
+  props: NyanCSSReactProps,
+  ...children: any[]
 ) => Element
