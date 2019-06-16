@@ -14,9 +14,8 @@ test-watch:
 build:
 	@rm -rf lib
 	@tsc
-	@prettier "**/*.[jt]s" --write --loglevel silent
-	@cp package.json lib
-	@cp README.md lib
+	@prettier "lib/**/*.[jt]s" --write --loglevel silent
+	@cp {package.json,*.md} lib
 
 publish: build
 	cd lib && npm publish --access public

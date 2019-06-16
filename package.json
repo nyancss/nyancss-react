@@ -1,7 +1,7 @@
 {
   "name": "@nyancss/react",
-  "version": "1.0.0",
-  "description": "Write plain CSS, import as React/Preact components",
+  "version": "1.1.0",
+  "description": "NyanCSS React/Preact components generator",
   "main": "index.js",
   "repository": "https://github.com/nyancss/nyancss-react",
   "author": "Sasha Koss <koss@nocorp.me>",
@@ -10,6 +10,7 @@
     "@nyancss/types": "^1"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-typescript": "^7.3.3",
     "@testing-library/react": "^8.0.1",

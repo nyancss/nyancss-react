@@ -1,6 +1,10 @@
-# Nyan CSS
+# @nyancss/react
 
-Nyan CSS is a convention that allows writing plain CSS and import it as
-React/Preact components (via webpack loader). Unlike CSS-in-JS, you can also use
-it in static websites without any changes. It also doesn't require slowish
-runtime or precompilation step.
+NyanCSS React/Preact components generator. The package is used in bundler integration packages.
+
+- See Nyan CSS docs at [the main repo](https://github.com/nyancss/nyancss).
+- See [the package changelog](./CHANGELOG.md).
+
+## License
+
+[MIT © Sasha Koss](https://kossnocorp.mit-license.org/)
