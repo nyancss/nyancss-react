@@ -5,7 +5,12 @@ const h = (...whatever) => whatever
 describe('generate', () => {
   it('generates simple components', () => {
     const { Component } = generate(h, {
-      Component: { tag: undefined, className: 'component-class', props: {} }
+      Component: {
+        componentName: 'Component',
+        tag: undefined,
+        className: 'component-class',
+        props: {}
+      }
     })
     const [tag, props, children] = Component({ children: 42 })
     expect(tag).toBe('div')
@@ -15,7 +20,12 @@ describe('generate', () => {
 
   it('passes children arrays', () => {
     const { Component } = generate(h, {
-      Component: { tag: undefined, className: 'component-class', props: {} }
+      Component: {
+        componentName: 'Component',
+        tag: undefined,
+        className: 'component-class',
+        props: {}
+      }
     })
     const [, , c1, c2, c3] = Component({ children: [1, 2, 3] })
     expect(c1).toBe(1)
@@ -26,6 +36,7 @@ describe('generate', () => {
   it('generates components with bool props', () => {
     const { Component } = generate(h, {
       Component: {
+        componentName: 'Component',
         tag: undefined,
         className: 'component-class',
         props: {
@@ -50,6 +61,7 @@ describe('generate', () => {
   it('generates components with enum props', () => {
     const { Component } = generate(h, {
       Component: {
+        componentName: 'Component',
         tag: undefined,
         className: 'component-class',
         props: {
@@ -77,7 +89,12 @@ describe('generate', () => {
 
   it('allows to override the tag using props', () => {
     const { Component } = generate(h, {
-      Component: { tag: undefined, className: 'component-class', props: {} }
+      Component: {
+        componentName: 'Component',
+        tag: undefined,
+        className: 'component-class',
+        props: {}
+      }
     })
     const args = Component({ tag: 'span', children: 42 })
     expect(args).toEqual(['span', { className: 'component-class' }, 42])
@@ -85,7 +102,12 @@ describe('generate', () => {
 
   it('allows to mix classes with custom `className` props', () => {
     const { Component } = generate(h, {
-      Component: { tag: undefined, className: 'component-class', props: {} }
+      Component: {
+        componentName: 'Component',
+        tag: undefined,
+        className: 'component-class',
+        props: {}
+      }
     })
     const [, props] = Component({ className: 'original-class' })
     expect(props).toEqual({ className: 'component-class original-class' })
@@ -94,6 +116,7 @@ describe('generate', () => {
   it('passes extra props to the tag element', () => {
     const { Component } = generate(h, {
       Component: {
+        componentName: 'Component',
         tag: undefined,
         className: 'component-class',
         props: {
@@ -116,7 +139,12 @@ describe('generate', () => {
   it('passes refs callback to the tag element', () => {
     const refsCallback = () => {}
     const { Component } = generate(h, {
-      Component: { tag: undefined, className: 'component-class', props: {} }
+      Component: {
+        componentName: 'Component',
+        tag: undefined,
+        className: 'component-class',
+        props: {}
+      }
     })
     const args = Component({ children: 42, innerRef: refsCallback })
     expect(args).toEqual([
@@ -128,7 +156,12 @@ describe('generate', () => {
 
   it('works with a number of zero as children', () => {
     const { Component } = generate(h, {
-      Component: { tag: undefined, className: 'component-class', props: {} }
+      Component: {
+        componentName: 'Component',
+        tag: undefined,
+        className: 'component-class',
+        props: {}
+      }
     })
     const [, props, children] = Component({ children: 0 })
     expect(props).toEqual({ className: 'component-class' })

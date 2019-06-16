@@ -1,5 +1,5 @@
 import { NyanCSSMap } from '@nyancss/types'
-import { h } from 'preact'
+import { createElement } from 'preact'
 import { cleanup, render } from 'preact-testing-library'
 import reactWrapper from '.'
 
@@ -32,18 +32,22 @@ describe('Preact wrapper', () => {
 
   it('creates React element from the passed Nyan CSS map', () => {
     const { Button } = reactWrapper(map)
-    const { getByText } = render(h(Button, { tag: 'button' }, 'Button text'))
+    const { getByText } = render(
+      createElement(Button, { tag: 'button' }, 'Button text')
+    )
     const el = getByText('Button text')
-    expect(el.className).toEqual('Button-xxx')
+    expect('className' in el && el.className).toEqual('Button-xxx')
   })
 
   it('properly applies props', () => {
     const { Button } = reactWrapper(map)
     const { getByText } = render(
-      h(Button, { tag: 'button', active: true, color: 'red' }, ['Button text'])
+      createElement(Button, { tag: 'button', active: true, color: 'red' }, [
+        'Button text'
+      ])
     )
     const el = getByText('Button text')
-    expect(el.className).toEqual(
+    expect('className' in el && el.className).toEqual(
       'Button-active-xxx Button-color-red-xxx Button-xxx'
     )
   })

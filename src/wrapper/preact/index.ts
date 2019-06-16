@@ -1,8 +1,5 @@
-import { h } from 'preact'
+import { createElement } from 'preact'
 import generate from '../../generate'
-import { NyanCSSReactCreateElement } from '../../types'
 
-const reactWrapper = generate.bind(null, h as NyanCSSReactCreateElement<
-  unknown
->)
+const reactWrapper = generate.bind(null, createElement)
 export default reactWrapper
