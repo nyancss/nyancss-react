@@ -1,5 +1,5 @@
 import { NyanCSSComponent, NyanCSSMap } from '@nyancss/types'
-import { getClassName } from '@nyancss/utils'
+import { getClassName } from '@nyancss/utils/stringify'
 import {
   NyanCSSReactComponent,
   NyanCSSReactCreateElement,

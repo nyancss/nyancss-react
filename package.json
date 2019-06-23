@@ -1,6 +1,6 @@
 {
   "name": "@nyancss/react",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Nyan CSS React/Preact components generator",
   "main": "index.js",
   "repository": "https://github.com/nyancss/nyancss-react",
