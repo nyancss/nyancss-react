@@ -1,4 +1,5 @@
-import { NyanCSSComponent, NyanCSSMap, NyanCSSProp } from '@nyancss/types'
+import { NyanCSSComponent, NyanCSSMap } from '@nyancss/types'
+import { getClassName } from '@nyancss/utils'
 import {
   NyanCSSReactComponent,
   NyanCSSReactCreateElement,
@@ -30,7 +31,7 @@ function createComponent<Element>(
 ): NyanCSSReactComponent<Element> {
   const Component = (props: NyanCSSReactProps) => {
     const tag = props.tag || 'div'
-    const className = getClassName(component, props)
+    const className = getClassName(component, props, props.className)
     const tagProps = without(
       props,
       ['tag', 'children', 'className', 'innerRef'].concat(
@@ -54,37 +55,6 @@ function createComponent<Element>(
   }
   Component.displayName = componentName
   return Component
-}
-
-function getClassName(component: NyanCSSComponent, props: NyanCSSReactProps) {
-  const componentPropsClassNames = Object.keys(component.props).reduce(
-    (acc, componentPropName) => {
-      const componentProp = component.props[componentPropName]
-      const propValue = props[componentPropName]
-      return acc.concat(findModifierClassName(componentProp, propValue) || [])
-    },
-    [] as string[]
-  )
-  return classesToString(
-    [props.className, component.className].concat(componentPropsClassNames)
-  )
-}
-
-function findModifierClassName(componentProp: NyanCSSProp, propValue: any) {
-  switch (componentProp.type) {
-    case 'boolean':
-      if (propValue) return componentProp.className
-      break
-    case 'enum':
-      return componentProp.classNames[propValue]
-  }
-}
-
-function classesToString(classes: Array<string | undefined>) {
-  return classes
-    .filter(c => !!c)
-    .sort()
-    .join(' ')
 }
 
 function without(obj: { [key: string]: any }, excludeKeys: string[]) {

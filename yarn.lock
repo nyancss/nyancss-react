@@ -802,10 +802,17 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^12.0.9"
 
-"@nyancss/types@^1":
+"@nyancss/types@^1", "@nyancss/types@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@nyancss/types/-/types-1.1.0.tgz#1b6030a6ee7143a0ba2e556bff72d9da7bb13ef6"
   integrity sha512-iiC7HUmil5T3pLcRDP+9Iza0WbN9ZXD9t5UGvwscf8PC97JJyXQe1tS5fea3DskEB8mxUUh/J8A14LMyvX71kw==
+
+"@nyancss/utils@^1.2":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@nyancss/utils/-/utils-1.2.0.tgz#c753bf08cde34fb08bc963b46b0625f19ffe93a0"
+  integrity sha512-9QWCpjZGo5GupaS+6C6VfYscaZo2PGsr8SWs+/B7ryrA6ztSAYE3EOVvTQIdxYC23ccZzsfIlM2tqcchUMOq+A==
+  dependencies:
+    "@nyancss/types" "^1.1.0"
 
 "@sheerun/mutationobserver-shim@^0.3.2":
   version "0.3.2"

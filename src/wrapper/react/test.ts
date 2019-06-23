@@ -48,7 +48,7 @@ describe('React wrapper', () => {
     )
     const el = getByText('Button text')
     expect(el.className).toEqual(
-      'Button-active-xxx Button-color-red-xxx Button-xxx'
+      'Button-xxx Button-active-xxx Button-color-red-xxx'
     )
   })
 })

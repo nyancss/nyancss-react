@@ -7,6 +7,14 @@ This change log follows the format documented in [Keep a CHANGELOG].
 [semantic versioning]: http://semver.org/
 [keep a changelog]: http://keepachangelog.com/
 
+## 1.2.0 - 2019-06-23
+
+### Changed
+
+- Use @nyancss/utils to stringify classes.
+
+- Class names aren't sorted anymore.
+
 ## 1.1.0 - 2019-06-16
 
 ### Added

@@ -1,13 +1,14 @@
 {
   "name": "@nyancss/react",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Nyan CSS React/Preact components generator",
   "main": "index.js",
   "repository": "https://github.com/nyancss/nyancss-react",
   "author": "Sasha Koss <koss@nocorp.me>",
   "license": "MIT",
   "dependencies": {
-    "@nyancss/types": "^1"
+    "@nyancss/types": "^1",
+    "@nyancss/utils": "^1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
